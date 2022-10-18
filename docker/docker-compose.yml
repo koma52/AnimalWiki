@@ -4,6 +4,8 @@ services:
   redis:
     container_name: animalwiki-redis
     image: redis:alpine
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf
     command: ["redis-server", "/etc/redis/redis.conf"]
     expose:
       - "6379"
