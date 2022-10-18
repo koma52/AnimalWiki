@@ -1,7 +1,11 @@
+import AnimalPage from "./AnimalPage";
+
 function App() {
   return (
-    <div className="App">
-    </div>
+    <>
+      <div>Main Page</div>
+      <AnimalPage />
+    </>
   );
 }
 
