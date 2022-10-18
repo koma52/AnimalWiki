@@ -1,7 +1,10 @@
+import AnimalPage from "./AnimalPage";
+
 function App() {
   return (
-    <div className="App">
-    </div>
+    <>
+      <AnimalPage />
+    </>
   );
 }
 
