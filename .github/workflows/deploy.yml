@@ -21,8 +21,8 @@ jobs:
       - name: Create SSH key
         run: |
           mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ../id_rsa
-          sudo chmod 600 ../id_rsa
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           ssh root@$SERVER_IP 'echo "asd" >> asd.txt'
         shell: bash
@@ -34,7 +34,7 @@ jobs:
       
       - name: create file
         run: |
-          ping 100.101.0.57 -c 5
+          ping $SERVER_IP -c 5
         shell: bash
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
