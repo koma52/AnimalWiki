@@ -35,7 +35,7 @@ jobs:
       
       - name: rsync docker.compose.yml
         run: |
-          rsync -v ./docker/docker-compose.yml root@$SERVER_IP:/root/
+          rsync -v ./docker/docker-compose.yml root@$SERVER_IP:/root/docker-compose.yaml
         shell: bash
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
