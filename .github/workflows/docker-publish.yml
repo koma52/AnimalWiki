@@ -82,7 +82,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Build and push backend Docker image
-        id: build-and-push
+        id: build-and-push-b
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
@@ -105,4 +105,12 @@ jobs:
           COSIGN_EXPERIMENTAL: "true"
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
-        run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+        run: echo "ghcr.io/koma52/animalwiki/frontend:latest" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+
+      - name: Sign the published Docker image b
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          COSIGN_EXPERIMENTAL: "true"
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "ghcr.io/koma52/animalwiki/backend:latest" | xargs -I {} cosign sign {}@${{ steps.build-and-push-b.outputs.digest }}
