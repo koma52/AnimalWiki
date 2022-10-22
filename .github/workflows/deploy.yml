@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Tailscale
         uses: tailscale/github-action@v1
         with:
@@ -32,9 +35,7 @@ jobs:
       
       - name: rsync docker.compose.yml
         run: |
-          pwd
-          ls -lh
-          rsync -v /home/runner/work/AnimalWiki/AnimalWiki/docker/docker-compose.yml root@$SERVER_IP:/root/
+          rsync -v ./docker/docker-compose.yml root@$SERVER_IP:/root/
         shell: bash
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
