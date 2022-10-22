@@ -33,6 +33,7 @@ jobs:
       - name: rsync docker.compose.yml
         run: |
           pwd
+          ls -lh
           rsync -v /home/runner/work/AnimalWiki/AnimalWiki/docker/docker-compose.yml root@$SERVER_IP:/root/
         shell: bash
         env:
