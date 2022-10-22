@@ -32,7 +32,7 @@ jobs:
       
       - name: rsync docker.compose.yml
         run: |
-          rsync -azvh ./docker/docker-compose.yml root@$SERVER_IP:/root/docker-compose.yml
+          rsync -azvh docker/docker-compose.yml root@$SERVER_IP:/root/docker-compose.yml
         shell: bash
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
