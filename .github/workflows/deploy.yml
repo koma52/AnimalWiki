@@ -24,17 +24,15 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           sudo chmod 600 ~/.ssh/id_rsa
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          ssh root@$SERVER_IP 'echo "asd" >> asd.txt'
         shell: bash
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
           SSH_KEY_PATH: ${{ github.workspace }}/../id_rsa
-          SERVER_IP: ${{ secrets.SERVER_IP }}
       
-      - name: create file
+      - name: rsync docker.compose.yml
         run: |
-          ping $SERVER_IP -c 5
+          rsync -azvh ./docker/docker-compose.yml root@$SERVER_IP:/root/docker-compose.yml
         shell: bash
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
