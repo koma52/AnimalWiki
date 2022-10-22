@@ -5,11 +5,13 @@ RUN npm i
 EXPOSE 3000
 CMD [ "npm", "start" ]
 
-FROM ubuntu:jammy AS animalwiki-backend
+FROM maven:3.6.0-jdk-11-slim AS animalwiki-backend-build
+COPY ./backend/src /home/app/src
+COPY ./backend/pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
+
+FROM openjdk:11-jre-slim AS animalwiki-backend-package
 WORKDIR /app
-RUN apt-get update && apt-get upgrade -y
-RUN apt install default-jre maven -y
-COPY ./backend ./
-RUN mvn clean package
-RUN cp ./target/animalwiki-backend*.jar ./app.jar
-CMD [ "java", "-jar", "./app.jar" ]
+COPY --from=animalwiki-backend-build /home/app/target/*.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT [ "java", "-jar", "/app/app.jar" ]

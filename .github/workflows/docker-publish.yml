@@ -87,7 +87,7 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          target: animalwiki-backend
+          target: animalwiki-backend-package
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/koma52/animalwiki/backend:latest
           labels: ${{ steps.meta.outputs.labels }}

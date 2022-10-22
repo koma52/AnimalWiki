@@ -1,6 +1,32 @@
 ---
 version: "3.3"
 services:
+  frontend:
+    container_name: animalwiki-frontend
+    image: animalwiki/frontend
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: animalwiki-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - animalwiki
+    restart: unless-stopped
+  
+  backend:
+    container_name: animalwiki-backend
+    image: animalwiki/backend
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: animalwiki-backend-package
+    ports:
+      - "8081:8080"
+    networks:
+      - animalwiki
+    restart: unless-stopped
+
   redis:
     container_name: animalwiki-redis
     image: redis:alpine
@@ -10,17 +36,6 @@ services:
     command: ["redis-server", "/etc/redis/redis.conf", "--loglevel warning", "--appendonly yes"]
     ports:
       - "6379:6379"
-    networks:
-      - animalwiki
-    restart: unless-stopped
-  
-  rediscommander:
-    container_name: rediscommander
-    image: rediscommander/redis-commander:latest
-    ports:
-      - "8081:8081"
-    environment:
-      - REDIS_HOSTS=local:redis:6379:0:password
     networks:
       - animalwiki
     restart: unless-stopped
