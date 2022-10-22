@@ -32,7 +32,7 @@ jobs:
       
       - name: create file
         run: |
-          ssh root@$SERVER_IP 'echo "asd" >> asd.txt'
+          ping 100.101.0.57 -c 5
         shell: bash
         env:
           SERVER_IP: ${{ secrets.SERVER_IP }}
